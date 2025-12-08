@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface IHero extends Document {
   name: string;
   slug?: string;
-  powerstats: {
+  powerstats?: {
     intelligence?: number;
     strength?: number;
     speed?: number;
@@ -11,20 +11,37 @@ export interface IHero extends Document {
     power?: number;
     combat?: number;
   };
-  biography: any;
-  appearance: any;
-  work: any;
-  connections: any;
-
-  // 🆕 Champ images complet
+  biography?: {
+    fullName?: string;
+    alterEgos?: string;
+    aliases?: string[];
+    placeOfBirth?: string;
+    firstAppearance?: string;
+    publisher?: string;
+    alignment?: string;
+  };
+  appearance?: {
+    gender?: string;
+    race?: string;
+    height?: string[];
+    weight?: string[];
+    eyeColor?: string;
+    hairColor?: string;
+  };
+  work?: {
+    occupation?: string;
+    base?: string;
+  };
+  connections?: {
+    groupAffiliation?: string;
+    relatives?: string;
+  };
   images?: {
     xs?: string;
     sm?: string;
     md?: string;
     lg?: string;
   };
-
-  // Champ fallback
   image?: string;
 }
 
@@ -32,16 +49,14 @@ const HeroSchema = new Schema<IHero>(
   {
     name: { type: String, required: true },
     slug: { type: String },
-
     powerstats: {
       intelligence: Number,
       strength: Number,
       speed: Number,
       durability: Number,
       power: Number,
-      combat: Number,
+      combat: Number
     },
-
     biography: {
       fullName: String,
       alterEgos: String,
@@ -49,40 +64,34 @@ const HeroSchema = new Schema<IHero>(
       placeOfBirth: String,
       firstAppearance: String,
       publisher: String,
-      alignment: String,
+      alignment: String
     },
-
     appearance: {
       gender: String,
       race: String,
       height: [String],
       weight: [String],
       eyeColor: String,
-      hairColor: String,
+      hairColor: String
     },
-
     work: {
       occupation: String,
-      base: String,
+      base: String
     },
-
     connections: {
       groupAffiliation: String,
-      relatives: String,
+      relatives: String
     },
-
-    // 🆕 GRAND MANQUANT DU PROJET :
     images: {
       xs: String,
       sm: String,
       md: String,
-      lg: String,
+      lg: String
     },
-
-    // fallback legacy
-    image: String,
+    image: String
   },
   { timestamps: true }
 );
 
-export default mongoose.model<IHero>("Hero", HeroSchema);
+const Hero = mongoose.model<IHero>("Hero", HeroSchema);
+export default Hero;

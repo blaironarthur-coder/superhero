@@ -3,28 +3,21 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import morgan from "morgan";
+import path from "path";
 
-import authRoutes from "./routes/auth.js";
-import heroRoutes from "./routes/heroes.js";
+import authRoutes from "./routes/auth";
+import heroRoutes from "./routes/heroes";
 
 const app = express();
 
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// 👉 pour servir le dossier images
+// 👉 servir les images : /images/md/1-a-bomb.jpg etc.
 app.use("/images", express.static(path.join(__dirname, "../images")));
 
-
-// === Middleware de base ===
 app.use(cors());
-app.use(morgan("dev"));
 app.use(express.json({ limit: "2mb" }));
+app.use(morgan("dev"));
 
-// === Routes de test ===
+// Routes test
 app.get("/", (_req, res) => {
   res.send("🚀 SuperHeroManager API en ligne !");
 });
@@ -33,12 +26,12 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-// === Enregistrement des routes principales ===
+// Routes principales
 app.use("/api/auth", authRoutes);
 app.use("/api/heroes", heroRoutes);
 
-// === Connexion à MongoDB et lancement du serveur ===
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/superheroes";
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://localhost:27017/superheroes";
 const PORT = Number(process.env.PORT) || 4000;
 
 console.log("🚀 Démarrage du serveur...");

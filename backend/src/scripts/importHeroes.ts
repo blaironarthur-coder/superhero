@@ -2,14 +2,16 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
-import Hero from "../models/heroModel.js";
+import Hero from "../models/heroModel";
 
 const filePath = path.resolve("./SuperHerosComplet.json");
 
 async function importHeroes() {
   try {
     console.log("🚀 Connexion à MongoDB...");
-    await mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/superheroes");
+    await mongoose.connect(
+      process.env.MONGO_URI || "mongodb://localhost:27017/superheroes"
+    );
     console.log("✅ Connecté à MongoDB");
 
     if (!fs.existsSync(filePath)) {
@@ -19,7 +21,6 @@ async function importHeroes() {
     console.log("📂 Lecture du fichier JSON...");
     const raw = fs.readFileSync(filePath, "utf-8");
     const parsed = JSON.parse(raw);
-
     const data = Array.isArray(parsed)
       ? parsed
       : parsed.superheros || parsed.heroes || [];
@@ -30,28 +31,27 @@ async function importHeroes() {
       throw new Error("❌ Aucun héros trouvé dans le fichier JSON !");
     }
 
-    // 👉 Structure parfaitement compatible avec heroModel et ton frontend
     const heroes = data.map((hero: any) => {
-      const slug = hero.slug || hero.id || hero.name?.toLowerCase().replace(/\s+/g, "-") || "unknown";
+      const slug =
+        hero.slug ||
+        hero.id ||
+        hero.name?.toLowerCase().replace(/\s+/g, "-") ||
+        "unknown";
 
       return {
         name: hero.name || "Unknown Hero",
-        slug: slug,
+        slug,
         powerstats: hero.powerstats || {},
         biography: hero.biography || {},
         appearance: hero.appearance || {},
         work: hero.work || {},
         connections: hero.connections || {},
-
-        // --- 💥 Le champ complet "images" ---
         images: {
           xs: hero.images?.xs || `xs/${slug}.jpg`,
           sm: hero.images?.sm || `sm/${slug}.jpg`,
           md: hero.images?.md || `md/${slug}.jpg`,
           lg: hero.images?.lg || `lg/${slug}.jpg`
         },
-
-        // Champ secondaire (optionnel)
         image: hero.images?.md || `md/${slug}.jpg`
       };
     });

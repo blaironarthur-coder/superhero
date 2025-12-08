@@ -4,28 +4,33 @@ import bcrypt from "bcryptjs";
 export interface IUser extends Document {
   username: string;
   password: string;
-  role: "user" | "admin" | "editor";
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  role: "editor" | "admin";
+  comparePassword(candidate: string): Promise<boolean>;
 }
 
 const UserSchema = new Schema<IUser>(
   {
     username: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["user", "admin", "editor"], default: "user" },
+    password: { type: String, required: true }, // mot de passe hashé
+    role: { type: String, enum: ["editor", "admin"], default: "editor" }
   },
   { timestamps: true }
 );
 
+// Hash du mot de passe avant save
 UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+  const user = this as IUser;
+  if (!user.isModified("password")) return next();
+
   const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  user.password = await bcrypt.hash(user.password, salt);
   next();
 });
 
-UserSchema.methods.comparePassword = async function (candidatePassword: string) {
-  return bcrypt.compare(candidatePassword, this.password);
+// Méthode d'instance pour comparer les mots de passe
+UserSchema.methods.comparePassword = async function (candidate: string) {
+  return bcrypt.compare(candidate, this.password);
 };
 
-export default mongoose.model<IUser>("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
+export default User;

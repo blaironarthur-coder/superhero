@@ -4,17 +4,17 @@ import {
   getHero,
   createHero,
   updateHero,
-  deleteHero,
-} from "../controllers/heroController.js";
-import { authMiddleware, roleMiddleware } from "../middleware/auth.js";
+  deleteHero
+} from "../controllers/heroController";
+import { authMiddleware, roleMiddleware } from "../middleware/auth";
 
 const router = express.Router();
 
-// Public routes
+// Public
 router.get("/", listHeroes);
 router.get("/:id", getHero);
 
-// Protected (admin) routes
+// Admin only
 router.post("/", authMiddleware, roleMiddleware("admin"), createHero);
 router.put("/:id", authMiddleware, roleMiddleware("admin"), updateHero);
 router.delete("/:id", authMiddleware, roleMiddleware("admin"), deleteHero);

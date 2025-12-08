@@ -2,11 +2,11 @@
   "name": "superhero-backend-starter",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node --transpile-only src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "node dist/index.js",
     "import-heroes": "npm run build && node dist/scripts/importHeroes.js"
   },
   "dependencies": {
@@ -18,8 +18,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.0",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1",
-    "ts-node": "^10.9.2"
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

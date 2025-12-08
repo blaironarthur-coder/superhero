@@ -1,17 +1,15 @@
-import jwt, { SignOptions, Secret } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-export function signJwt(payload: object, expiresIn: string | number = "7d") {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET missing in .env");
+const SECRET: string = process.env.JWT_SECRET || "SUPER_SECRET_KEY";
 
-  // cast nécessaire pour que TS accepte les valeurs string/number
-  const options: SignOptions = { expiresIn: expiresIn as any };
-
-  return jwt.sign(payload, secret as Secret, options);
+export function signJwt(payload: object, expiresIn: string = "7d"): string {
+  return (jwt as any).sign(payload, SECRET, { expiresIn });
 }
 
-export function verifyJwt<T = any>(token: string): T {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error("JWT_SECRET missing in .env");
-  return jwt.verify(token, secret as Secret) as T;
+export function verifyJwt(token: string): any | null {
+  try {
+    return (jwt as any).verify(token, SECRET);
+  } catch {
+    return null;
+  }
 }
