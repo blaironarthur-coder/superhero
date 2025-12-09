@@ -79,6 +79,25 @@ export default function App() {
     <div style={{ padding: 20, fontFamily: "system-ui", background: "#f5f6fa" }}>
       <h1 style={{ textAlign: "center" }}>🦸 SuperHero Manager</h1>
 
+      {localStorage.getItem("role") === "admin" && (
+  <div style={{ textAlign: "center", marginBottom: 20 }}>
+    <Link
+      to="/add-hero"
+      style={{
+        padding: "10px 20px",
+        background: "#2ecc71",
+        color: "white",
+        borderRadius: 8,
+        textDecoration: "none",
+        fontWeight: "bold",
+      }}
+    >
+      ➕ Ajouter un héros
+    </Link>
+  </div>
+)}
+
+
       {/* Déconnexion */}
       <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 20 }}>
         <button

@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
 import HeroDetails from "./HeroDetails";
 import Login from "./Login";
+import AddHero from "./AddHero";
 import ProtectedRoute from "./ProtectedRoute"; // ✅ ajoute cette ligne
 
 const root = ReactDOM.createRoot(
@@ -26,6 +27,15 @@ root.render(
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/add-hero"
+  element={
+    <ProtectedRoute role="admin">
+      <AddHero />
+    </ProtectedRoute>
+  }
+/>
+
         <Route
           path="/hero/:id"
           element={

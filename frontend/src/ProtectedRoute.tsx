@@ -10,14 +10,16 @@ interface ProtectedRouteProps {
  * Si oui → affiche la page.
  * Si non → redirige vers /login.
  */
-export default function ProtectedRoute({ children }: ProtectedRouteProps) {
+export default function ProtectedRoute({ children, role }: any) {
   const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
 
-  if (!token) {
-    // Pas connecté → redirection vers /login
-    return <Navigate to="/login" replace />;
-  }
+  if (!token) return <Navigate to="/login" />;
 
-  // Connecté → affiche le contenu protégé
-  return <>{children}</>;
+  if (role && userRole !== role)
+    return <h2 style={{ textAlign: "center", marginTop: 50 }}>
+      🚫 Accès interdit (rôle insuffisant)
+    </h2>;
+
+  return children;
 }

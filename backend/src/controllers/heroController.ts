@@ -87,3 +87,19 @@ export async function deleteHero(req: Request, res: Response) {
   if (!hero) return res.status(404).json({ error: "Hero not found" });
   res.json({ message: "Hero deleted successfully" });
 }
+
+export async function uploadHeroImage(req: Request, res: Response) {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+
+  const hero = await Hero.findByIdAndUpdate(
+    req.params.id,
+    { $set: { "images.local": `/uploads/${req.file.filename}` } },
+    { new: true }
+  );
+
+  if (!hero) return res.status(404).json({ error: "Hero not found" });
+
+  res.json(hero);
+}
