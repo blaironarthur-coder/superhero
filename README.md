@@ -192,23 +192,8 @@ Le frontend démarre sur :
 }
 ```
 
----
 
-## 🖥️ **7. Captures d'écran à inclure (placeholders)**
-
-📌 *Ajoute tes captures ici :*
-
-* 🏠 Page de login
-* 🦸 Liste des héros
-* 🔍 Filtres & recherche
-* 📄 Page détails héro
-* ⚙️ Page édition (admin)
-* 🗄️ Importation des images en backend
-* 🧪 Tests Postman des routes
-
----
-
-## 🧪 **8. Tests manuels conseillés**
+## 🧪 **7. Tests manuels conseillés**
 
 * Connexion réussie / échouée
 * Voir les pages en tant qu’éditeur
@@ -221,7 +206,7 @@ Le frontend démarre sur :
 
 ---
 
-## 🚀 **9. Axes d’amélioration**
+## 🚀 **8. Axes d’amélioration**
 
 * Ajout des favoris
 * Comparateur de héros
@@ -232,9 +217,8 @@ Le frontend démarre sur :
 
 ---
 
-## 📎 **10. Lien GitHub**
+## 📎 **9. Lien GitHub**
 
-➡️ *(à compléter une fois push du projet)*
 `https://github.com/blaironarthur-coder/superhero`
 
 ---
